@@ -36,20 +36,63 @@ public class LinkedBasedStack<E> implements StackInterface<E> {
 
 	@Override
 	public void push(E e) throws IllegalStateException, NullPointerException {
-		// TODO Auto-generated method stub
 		
+		if(e == null) {
+			throw new NullPointerException("The parameter you provided is null");
+		}
+		
+		Node<E> newNode = new Node<E>(e);
+		
+		if(this.isEmpty()) {
+			this.top = newNode;
+			this.size++;	
+		}else{
+			/*
+			 * Set next node of the current top to the newnode
+			 */
+			this.top.setNext(newNode);
+			
+			/*
+			 * Set previous node of the newnode to the current top
+			 */
+			newNode.setPrevious(top);
+			
+			// Update top
+			this.top = newNode;
+			
+			// Update size
+			this.size++;
+			
+		}
 	}
 
 	@Override
 	public E peek() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(this.isEmpty()) {
+			return null;
+		}{
+			return this.top.getData();
+		}
 	}
 
 	@Override
 	public E pop() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(this.isEmpty()) {
+			return null;
+		}else {
+			E removedElement = this.peek();
+			
+			if(this.size == 1) {
+				this.clear();
+			}else {
+				this.top = this.top.getPrevious();
+				this.top.setNext(null);
+				this.size--;
+			}
+			return removedElement ;
+		}
 	}
 
 	@Override
@@ -57,5 +100,7 @@ public class LinkedBasedStack<E> implements StackInterface<E> {
 		this.top = null;
 		this.size = 0;
 	}
+	
+	
 
 }
